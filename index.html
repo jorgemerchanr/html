@@ -6,22 +6,25 @@
   <title>Reporte Power BI PDF</title>
 
   <style>
-
+@page {
+  size: A4;
+  margin: 10mm;
+}
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
       padding: 20px;
     }
 
-    #reporte {
-      background: white;
-      width: 210mm;
-      min-height: 297mm;
-      padding: 20mm;
-      margin: auto;
-      box-sizing: border-box;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
+#reporte {
+  background: white;
+  width: 190mm;
+  min-height: auto;
+  padding: 12mm;
+  margin: auto;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
 
     button {
       margin: 10px;
@@ -47,13 +50,14 @@
         padding: 0;
       }
 
-      #reporte {
-        width: 100%;
-        min-height: auto;
-        padding: 20mm;
-        margin: 0;
-        box-shadow: none;
-        background: white;
+     #reporte {
+  width: auto;
+  min-height: auto;
+  padding: 10mm;
+  margin: 0;
+  box-shadow: none;
+  background: white;
+}
       }
 
     }
