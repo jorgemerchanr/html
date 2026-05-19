@@ -1,123 +1,183 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Reporte Power BI PDF</title>
+<meta charset="UTF-8">
+<title>Reporte Power BI PDF</title>
 
-  <style>
+<style>
+@page {
+  size: A4 portrait;
+  margin: 10mm;
+}
 
-    @page {
-      size: A4 portrait;
-      margin: 10mm;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background: white;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: white;
-      padding: 0;
-      margin: 0;
-      text-align: center;
-    }
+.botones {
+  text-align: center;
+  margin: 20px;
+}
 
-    #reporte {
-      background: white;
-      width: 180mm;
-      padding: 10mm;
-      margin: 20px auto;
-      box-sizing: border-box;
-      box-shadow: none;
-      overflow-wrap: break-word;
-      text-align: left;
-    }
+button {
+  margin: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    button {
-      margin: 10px;
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+#reporte {
+  background: white;
+  width: 180mm;
+  padding: 10mm;
+  margin: 20px auto;
+  box-sizing: border-box;
+  text-align: left;
+}
 
-    .botones {
-      text-align: center;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
+h2 {
+  text-align: center;
+  color: #1F4E79;
+  margin-bottom: 18px;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 6px;
+}
 
-    td, th {
-      border: 1px solid #ccc;
-      padding: 6px;
-      font-size: 12px;
-    }
+td, th {
+  border: 1px solid #999;
+  padding: 5px;
+  font-size: 11px;
+}
 
-    img {
-      max-width: 100%;
-      height: auto;
-    }
+th {
+  background: #D9EAF7;
+  text-align: center;
+}
 
-    @media print {
+.observacion {
+  padding: 0px 8px 12px 8px;
+  margin-bottom: 14px;
+  text-align: justify;
+  font-size: 11px;
+}
 
-      button,
-      .botones {
-        display: none;
-      }
+.linea {
+  padding: 4px 8px;
+  font-size: 11px;
+}
 
-      body {
-        background: white;
-        padding: 0;
-        margin: 0;
-      }
+@media print {
+  button, .botones {
+    display: none;
+  }
 
-      #reporte {
-        width: auto;
-        padding: 0;
-        margin: 0;
-        box-shadow: none;
-      }
+  body {
+    margin: 0;
+    padding: 0;
+  }
 
-    }
-
-  </style>
-
+  #reporte {
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="botones">
+<div class="botones">
+  <button onclick="generarPreview()">Vista previa</button>
+  <button onclick="window.print()">Imprimir / Guardar PDF</button>
+</div>
 
-    <button onclick="window.print()">
-      Imprimir / Guardar PDF
-    </button>
+<div id="reporte">
+  <div id="contenido"></div>
+</div>
 
-  </div>
+<script>
+function generarPreview() {
+  const params = new URLSearchParams(window.location.search);
+  const data = params.get("d") || "";
 
-  <div id="reporte">
+  if (!data) {
+    document.getElementById("contenido").innerHTML = "<p>No se recibieron datos.</p>";
+    return;
+  }
 
-    <div id="contenido"></div>
+  const partes = data.split("¬");
+  const area = partes[0] || "Área responsable";
+  const filasTexto = partes[1] || "";
 
-  </div>
+  const filas = filasTexto.split("~");
 
-  <script>
+  let html = `<h2>${area}</h2>`;
 
-const params = new URLSearchParams(window.location.search);
+  filas.forEach(fila => {
+    const c = fila.split("|");
 
-const html =
-(params.get("contenido1") || "") +
-(params.get("contenido2") || "") +
-(params.get("contenido3") || "") +
-(params.get("contenido4") || "") +
-(params.get("contenido5") || "") +
-(params.get("contenido6") || "");
+    const criterio = c[0] || "";
+    const indicador = c[1] || "";
+    const actividad = c[2] || "";
+    const fechaInicio = c[3] || "";
+    const fechaFin = c[4] || "";
+    const fuente = c[5] || "";
+    const avance = c[6] || "";
+    const estado = c[7] || "";
+    const ultimoAvance = c[8] || "Sin reporte";
+    const mesObservacion = c[9] || "Sin mes cargado";
+    const observacion = c[10] || "Sin observación registrada";
 
-document.body.innerHTML = decodeURIComponent(html);
+    html += `
+      <table>
+        <tr>
+          <th>Criterio</th>
+          <th>Indicador</th>
+          <th>Actividad</th>
+          <th>Fecha inicio</th>
+          <th>Fecha Fin</th>
+          <th>Fuente de información</th>
+          <th>Porcentaje de cumplimiento</th>
+          <th>Estado</th>
+        </tr>
+        <tr>
+          <td>${criterio}</td>
+          <td>${indicador}</td>
+          <td>${actividad}</td>
+          <td style="text-align:center;">${fechaInicio}</td>
+          <td style="text-align:center;">${fechaFin}</td>
+          <td>${fuente}</td>
+          <td style="text-align:center;">${avance}</td>
+          <td style="text-align:center;">${estado}</td>
+        </tr>
+      </table>
 
-  </script>
+      <div class="linea">
+        <b>Último mes que reporta avance:</b> ${ultimoAvance}
+      </div>
+
+      <div class="linea">
+        <b>Observación:</b> ${mesObservacion}
+      </div>
+
+      <div class="observacion">
+        ${observacion}
+      </div>
+    `;
+  });
+
+  document.getElementById("contenido").innerHTML = html;
+}
+</script>
 
 </body>
-
 </html>
