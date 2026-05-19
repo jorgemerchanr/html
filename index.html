@@ -104,14 +104,17 @@
 
   <script>
 
-    const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
-    const html =
-      params.get("contenido") ||
-      "<h1>Sin contenido</h1><p>No se recibió contenido desde Power BI.</p>";
+const html =
+(params.get("contenido1") || "") +
+(params.get("contenido2") || "") +
+(params.get("contenido3") || "") +
+(params.get("contenido4") || "") +
+(params.get("contenido5") || "") +
+(params.get("contenido6") || "");
 
-    document.getElementById("contenido").innerHTML =
-      html;
+document.body.innerHTML = decodeURIComponent(html);
 
   </script>
 
