@@ -6,25 +6,29 @@
   <title>Reporte Power BI PDF</title>
 
   <style>
-@page {
-  size: A4;
-  margin: 10mm;
-}
+
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
       padding: 20px;
+      margin: 0;
     }
 
-#reporte {
-  background: white;
-  width: 190mm;
-  min-height: auto;
-  padding: 12mm;
-  margin: auto;
-  box-sizing: border-box;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
+    #reporte {
+      background: white;
+      width: 190mm;
+      min-height: auto;
+      padding: 12mm;
+      margin: auto;
+      box-sizing: border-box;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      overflow-wrap: break-word;
+    }
 
     button {
       margin: 10px;
@@ -36,6 +40,17 @@
     .botones {
       text-align: center;
       margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td, th {
+      border: 1px solid #ccc;
+      padding: 6px;
+      font-size: 12px;
     }
 
     @media print {
@@ -50,14 +65,13 @@
         padding: 0;
       }
 
-     #reporte {
-  width: auto;
-  min-height: auto;
-  padding: 10mm;
-  margin: 0;
-  box-shadow: none;
-  background: white;
-}
+      #reporte {
+        width: auto;
+        min-height: auto;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        background: white;
       }
 
     }
@@ -78,8 +92,6 @@
 
   <div id="reporte">
 
-    <h1>Resumen Ejecutivo</h1>
-
     <div id="contenido"></div>
 
   </div>
@@ -90,7 +102,7 @@
 
     const html =
       params.get("contenido") ||
-      "<p>No se recibió contenido desde Power BI.</p>";
+      "<h1>Sin contenido</h1><p>No se recibió contenido desde Power BI.</p>";
 
     document.getElementById("contenido").innerHTML =
       html;
