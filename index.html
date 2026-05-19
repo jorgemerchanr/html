@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Reporte Power BI PDF</title>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
+
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
@@ -19,45 +22,101 @@
       padding: 20mm;
       margin: auto;
       box-sizing: border-box;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
 
     button {
-      margin: 20px auto;
-      display: block;
+      margin: 10px;
       padding: 12px 20px;
       font-size: 16px;
       cursor: pointer;
     }
+
+    .botones {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    @media print {
+
+      button {
+        display: none;
+      }
+
+      body {
+        background: white;
+        margin: 0;
+        padding: 0;
+      }
+
+      #reporte {
+        width: 100%;
+        min-height: auto;
+        padding: 20mm;
+        margin: 0;
+        box-shadow: none;
+        background: white;
+      }
+
+    }
+
   </style>
+
 </head>
 
 <body>
 
-  <button onclick="generarPDF()">Descargar PDF</button>
+  <div class="botones">
+
+    <button onclick="window.print()">
+      Imprimir / Guardar PDF
+    </button>
+
+    <button onclick="generarPDFImagen()">
+      Descargar PDF Imagen
+    </button>
+
+  </div>
 
   <div id="reporte">
+
     <h1>Resumen Ejecutivo</h1>
+
     <div id="contenido"></div>
+
   </div>
 
   <script>
+
     const params = new URLSearchParams(window.location.search);
-    const html = params.get("contenido") || "<p>No se recibió contenido desde Power BI.</p>";
 
-    document.getElementById("contenido").innerHTML = decodeURIComponent(html);
+    const html =
+      params.get("contenido") ||
+      "<p>No se recibió contenido desde Power BI.</p>";
 
-    function generarPDF() {
+    document.getElementById("contenido").innerHTML =
+      decodeURIComponent(html);
+
+    function generarPDFImagen() {
+
       html2pdf()
         .from(document.getElementById("reporte"))
         .set({
           margin: 0,
           filename: "reporte-powerbi.pdf",
           html2canvas: { scale: 2 },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+          jsPDF: {
+            unit: "mm",
+            format: "a4",
+            orientation: "portrait"
+          }
         })
         .save();
+
     }
+
   </script>
 
 </body>
+
 </html>
