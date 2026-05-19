@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Reporte Power BI PDF</title>
+
+  <style>
+
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+    }
+
+    #reporte {
+      background: white;
+      width: 180mm;
+      padding: 10mm;
+      margin: 20px auto;
+      box-sizing: border-box;
+      box-shadow: none;
+      overflow-wrap: break-word;
+      text-align: left;
+    }
+
+    button {
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .botones {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td, th {
+      border: 1px solid #ccc;
+      padding: 6px;
+      font-size: 12px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media print {
+
+      button,
+      .botones {
+        display: none;
+      }
+
+      body {
+        background: white;
+        padding: 0;
+        margin: 0;
+      }
+
+      #reporte {
+        width: auto;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="botones">
+
+    <button onclick="window.print()">
+      Imprimir / Guardar PDF
+    </button>
+
+  </div>
+
+  <div id="reporte">
+
+    <div id="contenido"></div>
+
+  </div>
+
+  <script>
+
+const params = new URLSearchParams(window.location.search);
+
+const html =
+(params.get("contenido1") || "") +
+(params.get("contenido2") || "") +
+(params.get("contenido3") || "") +
+(params.get("contenido4") || "") +
+(params.get("contenido5") || "") +
+(params.get("contenido6") || "");
+
+document.body.innerHTML = decodeURIComponent(html);
+
+  </script>
+
+</body>
+
+</html>
