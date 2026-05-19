@@ -5,6 +5,7 @@
 <title>Reporte Power BI PDF</title>
 
 <style>
+
 @page {
   size: A4 portrait;
   margin: 10mm;
@@ -75,7 +76,9 @@ th {
 }
 
 @media print {
-  button, .botones {
+
+  button,
+  .botones {
     display: none;
   }
 
@@ -89,15 +92,18 @@ th {
     margin: 0;
     padding: 0;
   }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="botones">
-  <button onclick="generarPreview()">Vista previa</button>
-  <button onclick="window.print()">Imprimir / Guardar PDF</button>
+  <button onclick="window.print()">
+    Imprimir / Guardar PDF
+  </button>
 </div>
 
 <div id="reporte">
@@ -105,17 +111,22 @@ th {
 </div>
 
 <script>
+
 function generarPreview() {
+
   const params = new URLSearchParams(window.location.search);
   const data = params.get("d") || "";
 
   if (!data) {
-    document.getElementById("contenido").innerHTML = "<p>No se recibieron datos.</p>";
+    document.getElementById("contenido").innerHTML =
+      "<p>No se recibieron datos.</p>";
     return;
   }
 
   const partes = data.split("¬");
+
   const area = partes[0] || "Área responsable";
+
   const filasTexto = partes[1] || "";
 
   const filas = filasTexto.split("~");
@@ -123,6 +134,7 @@ function generarPreview() {
   let html = `<h2>${area}</h2>`;
 
   filas.forEach(fila => {
+
     const c = fila.split("|");
 
     const criterio = c[0] || "";
@@ -138,7 +150,9 @@ function generarPreview() {
     const observacion = c[10] || "Sin observación registrada";
 
     html += `
+
       <table>
+
         <tr>
           <th>Criterio</th>
           <th>Indicador</th>
@@ -149,6 +163,7 @@ function generarPreview() {
           <th>Porcentaje de cumplimiento</th>
           <th>Estado</th>
         </tr>
+
         <tr>
           <td>${criterio}</td>
           <td>${indicador}</td>
@@ -159,25 +174,33 @@ function generarPreview() {
           <td style="text-align:center;">${avance}</td>
           <td style="text-align:center;">${estado}</td>
         </tr>
+
       </table>
 
       <div class="linea">
-        <b>Último mes que reporta avance:</b> ${ultimoAvance}
+        <b>Último mes que reporta avance:</b>
+        ${ultimoAvance}
       </div>
 
       <div class="linea">
-        <b>Observación:</b> ${mesObservacion}
+        <b>Observación:</b>
+        ${mesObservacion}
       </div>
 
       <div class="observacion">
         ${observacion}
       </div>
+
     `;
+
   });
 
   document.getElementById("contenido").innerHTML = html;
-}
-</script>
 
+}
+
+generarPreview();
+
+</script>
 </body>
 </html>
