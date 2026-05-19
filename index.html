@@ -8,29 +8,27 @@
   <style>
 
     @page {
-      size: A4;
+      size: A4 portrait;
       margin: 10mm;
     }
 
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
+      background: white;
+      padding: 0;
       margin: 0;
     }
 
+    #reporte {
+      background: white;
+      width: 180mm;
+      padding: 10mm;
+      margin: 20px auto;
+      box-sizing: border-box;
+      box-shadow: none;
+      overflow-wrap: break-word;
+    }
 
-#reporte {
-  background: white;
-  width: 180mm;
-  min-height: auto;
-  padding: 12mm;
-  margin: auto;
-  box-sizing: border-box;
-  box-shadow: none;
-  overflow-wrap: break-word;
-}
-    
     button {
       margin: 10px;
       padding: 12px 20px;
@@ -54,25 +52,29 @@
       font-size: 12px;
     }
 
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
     @media print {
 
-      button {
+      button,
+      .botones {
         display: none;
       }
 
       body {
         background: white;
-        margin: 0;
         padding: 0;
+        margin: 0;
       }
 
       #reporte {
         width: auto;
-        min-height: auto;
         padding: 0;
         margin: 0;
         box-shadow: none;
-        background: white;
       }
 
     }
